@@ -1,0 +1,30 @@
+[
+    {
+      "name": "Monkey D. Luffy",
+      "crew": "Cappello di Paglia",
+      "haki": true,
+      "bounty": "3 miliardi",
+      "height": "174 cm"
+    },
+    {
+      "name": "Roronoa Zoro",
+      "crew": "Cappello di Paglia",
+      "haki": true,
+      "bounty": "1.111 miliardi",
+      "height": "181 cm"
+    },
+    {
+      "name": "Sanji",
+      "crew": "Cappello di Paglia",
+      "haki": true,
+      "bounty": "1.032 miliardi",
+      "height": "180 cm"
+    },
+    {
+      "name": "Usopp",
+      "crew": "Cappello di Paglia",
+      "haki": false,
+      "bounty": "500 milioni",
+      "height": "176 cm"
+    }
+  ]
