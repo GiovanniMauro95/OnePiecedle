@@ -32,8 +32,8 @@ const HomePage = () => {
           />
           <GameMode
             title="Frutto del diavolo"
-            description="Indovina il nome"
-            link="/devil-fruit"
+            description="Indovina il personaggio"
+            link="/frutto-del-diavolo"
           />
           <GameMode
             title="Wanted"

@@ -1,30 +1,476 @@
 [
-    {
-      "name": "Monkey D. Luffy",
-      "crew": "Cappello di Paglia",
-      "haki": true,
-      "bounty": "3 miliardi",
-      "height": "174 cm"
-    },
-    {
-      "name": "Roronoa Zoro",
-      "crew": "Cappello di Paglia",
-      "haki": true,
-      "bounty": "1.111 miliardi",
-      "height": "181 cm"
-    },
-    {
-      "name": "Sanji",
-      "crew": "Cappello di Paglia",
-      "haki": true,
-      "bounty": "1.032 miliardi",
-      "height": "180 cm"
-    },
-    {
-      "name": "Usopp",
-      "crew": "Cappello di Paglia",
-      "haki": false,
-      "bounty": "500 milioni",
-      "height": "176 cm"
-    }
+  {
+    "name": "Monkey D. Luffy",
+    "crew": "Cappello di Paglia",
+    "haki": true,
+    "bounty": "3 miliardi",
+    "height": "174 cm",
+    "devilFruit": true,
+    "fruitName": "Gomu Gomu no Mi / Hito Hito no Mi: Nika"
+  },
+  {
+    "name": "Roronoa Zoro",
+    "crew": "Cappello di Paglia",
+    "haki": true,
+    "bounty": "1.111 miliardi",
+    "height": "181 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Sanji",
+    "crew": "Cappello di Paglia",
+    "haki": true,
+    "bounty": "1.032 miliardi",
+    "height": "180 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Usopp",
+    "crew": "Cappello di Paglia",
+    "haki": false,
+    "bounty": "500 milioni",
+    "height": "176 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Nami",
+    "crew": "Cappello di Paglia",
+    "haki": false,
+    "bounty": "366.000.000",
+    "height": "170 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Tony Tony Chopper",
+    "crew": "Cappello di Paglia",
+    "haki": false,
+    "bounty": "1.000",
+    "height": "90 cm",
+    "devilFruit": true,
+    "fruitName": "Hito Hito no Mi"
+  },
+  {
+    "name": "Nico Robin",
+    "crew": "Cappello di Paglia",
+    "haki": false,
+    "bounty": "930.000.000",
+    "height": "188 cm",
+    "devilFruit": true,
+    "fruitName": "Hana Hana no Mi"
+  },
+  {
+    "name": "Franky",
+    "crew": "Cappello di Paglia",
+    "haki": false,
+    "bounty": "394.000.000",
+    "height": "240 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Brook",
+    "crew": "Cappello di Paglia",
+    "haki": false,
+    "bounty": "383.000.000",
+    "height": "277 cm",
+    "devilFruit": true,
+    "fruitName": "Yomi Yomi no Mi"
+  },
+  {
+    "name": "Jinbe",
+    "crew": "Cappello di Paglia",
+    "haki": true,
+    "bounty": "1.100.000.000",
+    "height": "301 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Enel",
+    "crew": "Nessuna",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "266 cm",
+    "devilFruit": true,
+    "fruitName": "Goro Goro no Mi"
+  },
+  {
+    "name": "Rob Lucci",
+    "crew": "CP0",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "212 cm",
+    "devilFruit": true,
+    "fruitName": "Neko Neko no Mi: modello leopardo"
+  },
+  {
+    "name": "Kizaru",
+    "crew": "Marina",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "302 cm",
+    "devilFruit": true,
+    "fruitName": "Pika Pika no Mi"
+  },
+  {
+    "name": "Bartholomew Kuma",
+    "crew": "Rivoluzionari",
+    "haki": false,
+    "bounty": "296.000.000",
+    "height": "689 cm",
+    "devilFruit": true,
+    "fruitName": "Nikyu Nikyu no Mi"
+  },
+  {
+    "name": "Shiki",
+    "crew": "Ex Rocks Pirates",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "346 cm",
+    "devilFruit": true,
+    "fruitName": "Fuwa Fuwa no Mi"
+  },
+  {
+    "name": "Koala",
+    "crew": "Rivoluzionari",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "160 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Rayleigh",
+    "crew": "Ex Roger Pirates",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "188 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Magellan",
+    "crew": "Impel Down",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "491 cm",
+    "devilFruit": true,
+    "fruitName": "Doku Doku no Mi"
+  },
+  {
+    "name": "Garp",
+    "crew": "Marina",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "287 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Sengoku",
+    "crew": "Marina",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "278 cm",
+    "devilFruit": true,
+    "fruitName": "Hito Hito no Mi: modello Daibutsu"
+  },
+  {
+    "name": "Fujitora",
+    "crew": "Marina",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "270 cm",
+    "devilFruit": true,
+    "fruitName": "Zushi Zushi no Mi"
+  },
+  {
+    "name": "Smoker",
+    "crew": "Marina",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "209 cm",
+    "devilFruit": true,
+    "fruitName": "Moku Moku no Mi"
+  },
+  {
+    "name": "Tashigi",
+    "crew": "Marina",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "170 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Perona",
+    "crew": "Ex Thriller Bark",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "160 cm",
+    "devilFruit": true,
+    "fruitName": "Horo Horo no Mi"
+  },
+  {
+    "name": "Jesus Burgess",
+    "crew": "Barbanera",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "325 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Kuro",
+    "crew": "Ex Pirati di Kuro",
+    "haki": false,
+    "bounty": "16.000.000",
+    "height": "195 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Basil Hawkins",
+    "crew": "Pirati di Hawkins",
+    "haki": true,
+    "bounty": "320.000.000",
+    "height": "210 cm",
+    "devilFruit": true,
+    "fruitName": "Wara Wara no Mi"
+  },
+  {
+    "name": "Killer",
+    "crew": "Pirati di Kid",
+    "haki": true,
+    "bounty": "200.000.000",
+    "height": "195 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Capone Bege",
+    "crew": "Pirati di Fire Tank",
+    "haki": false,
+    "bounty": "350.000.000",
+    "height": "166 cm",
+    "devilFruit": true,
+    "fruitName": "Shiro Shiro no Mi"
+  },
+  {
+    "name": "Vinsmoke Judge",
+    "crew": "Germa 66",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "270 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Shiryu",
+    "crew": "Pirati di Barbanera",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "340 cm",
+    "devilFruit": true,
+    "fruitName": "Suke Suke no Mi"
+  },
+  {
+    "name": "X Drake",
+    "crew": "Marina (SWORD)",
+    "haki": true,
+    "bounty": "222.000.000",
+    "height": "233 cm",
+    "devilFruit": true,
+    "fruitName": "Ryu Ryu no Mi: modello Allosauro"
+  },
+  {
+    "name": "Scratchmen Apoo",
+    "crew": "Pirati di On Air",
+    "haki": false,
+    "bounty": "350.000.000",
+    "height": "256 cm",
+    "devilFruit": true,
+    "fruitName": "Oto Oto no Mi"
+  },
+  {
+    "name": "Charlotte Katakuri",
+    "crew": "Pirata di Big Mom",
+    "haki": true,
+    "bounty": "1.057.000.000",
+    "height": "509 cm",
+    "devilFruit": true,
+    "fruitName": "Mochi Mochi no Mi"
+  },
+  {
+    "name": "Charlotte Cracker",
+    "crew": "Pirata di Big Mom",
+    "haki": true,
+    "bounty": "860.000.000",
+    "height": "307 cm",
+    "devilFruit": true,
+    "fruitName": "Bisu Bisu no Mi"
+  },
+  {
+    "name": "Charlotte Perospero",
+    "crew": "Pirata di Big Mom",
+    "haki": false,
+    "bounty": "700.000.000",
+    "height": "333 cm",
+    "devilFruit": true,
+    "fruitName": "Pero Pero no Mi"
+  },
+  {
+    "name": "Kin'emon",
+    "crew": "Foderi Rossi",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "295 cm",
+    "devilFruit": true,
+    "fruitName": "Fuku Fuku no Mi"
+  },
+  {
+    "name": "Denjiro",
+    "crew": "Foderi Rossi",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "287 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Kanjuro",
+    "crew": "Foderi Rossi",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "287 cm",
+    "devilFruit": true,
+    "fruitName": "Fude Fude no Mi"
+  },
+  {
+    "name": "Raizo",
+    "crew": "Foderi Rossi",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "311 cm",
+    "devilFruit": true,
+    "fruitName": "Maki Maki no Mi"
+  },
+  {
+    "name": "Kikunojo",
+    "crew": "Foderi Rossi",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "287 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Ashura Doji",
+    "crew": "Foderi Rossi",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "308 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Inuarashi",
+    "crew": "Ducato di Mokomo",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "341 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Nekomamushi",
+    "crew": "Ducato di Mokomo",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "336 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Yamato",
+    "crew": "Beasts Pirates",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "263 cm",
+    "devilFruit": true,
+    "fruitName": "Inu Inu no Mi: modello Okuchi no Makami"
+  },
+  {
+    "name": "Oden Kozuki",
+    "crew": "Ex Pirati di Roger",
+    "haki": true,
+    "bounty": "N/A",
+    "height": "382 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Bellemere",
+    "crew": "Marina (ex)",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "186 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Nojiko",
+    "crew": "Villaggio Cocoyashi",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "170 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Dr. Hiriluk",
+    "crew": "Drum Island",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "165 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Kureha",
+    "crew": "Drum Island",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "188 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Pell",
+    "crew": "Guardia Reale di Alabasta",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "208 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Chaka",
+    "crew": "Guardia Reale di Alabasta",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "210 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Vivi Nefertari",
+    "crew": "Regno di Alabasta",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "169 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Igaram",
+    "crew": "Guardia Reale di Alabasta",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "188 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Conis",
+    "crew": "Skypiea",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "163 cm",
+    "devilFruit": false
+  },
+  {
+    "name": "Pagaya",
+    "crew": "Skypiea",
+    "haki": false,
+    "bounty": "N/A",
+    "height": "175 cm",
+    "devilFruit": false
+  }
   ]

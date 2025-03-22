@@ -2,45 +2,73 @@ import React, { useState, useEffect } from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
 
 const ClassicMode = () => {
-  const [input, setInput] = useState("")
-  const [selectedCharacter, setSelectedCharacter] = useState(null)
-  const [feedback, setFeedback] = useState(null)
   const [characters, setCharacters] = useState([])
+  const [inputValue, setInputValue] = useState("")
+  const [suggestions, setSuggestions] = useState([])
+  const [guesses, setGuesses] = useState([])
   const [targetCharacter, setTargetCharacter] = useState(null)
+  const [victory, setVictory] = useState(false)
 
   useEffect(() => {
     fetch("/characters.json")
       .then((response) => response.json())
       .then((data) => {
         setCharacters(data)
-        setTargetCharacter(data[Math.floor(Math.random() * data.length)])
+        const today = new Date().toISOString().slice(0, 10)
+        const hash = Array.from(today).reduce(
+          (acc, char) => acc + char.charCodeAt(0),
+          0
+        )
+        const index = hash % data.length
+        setTargetCharacter(data[index])
       })
       .catch((error) =>
         console.error("Errore nel caricamento dei personaggi:", error)
       )
   }, [])
 
-  const checkCharacter = () => {
-    if (!input.trim()) return
-    const character = characters.find(
-      (c) => c.name.toLowerCase() === input.toLowerCase()
-    )
+  const normalize = (str) =>
+    str
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
 
-    if (character) {
-      setSelectedCharacter(character)
-      setFeedback(compareCharacters(character, targetCharacter))
+  const handleInputChange = (event) => {
+    const value = event.target.value
+    setInputValue(value)
+    if (value.length > 0) {
+      const filteredSuggestions = characters.filter((character) =>
+        normalize(character.name).startsWith(normalize(value))
+      )
+      setSuggestions(filteredSuggestions)
     } else {
-      setSelectedCharacter(null)
-      setFeedback(null)
+      setSuggestions([])
     }
   }
 
-  const compareCharacters = (guess, correct) => ({
-    crew: guess.crew === correct.crew ? "green" : "red",
-    haki: guess.haki === correct.haki ? "green" : "red",
-    bounty: guess.bounty === correct.bounty ? "green" : "red",
-    height: guess.height === correct.height ? "green" : "red",
-  })
+  const handleSelectSuggestion = (name) => {
+    setInputValue(name)
+    setSuggestions([])
+  }
+
+  const handleVerify = () => {
+    const foundCharacter = characters.find(
+      (char) => normalize(char.name) === normalize(inputValue)
+    )
+    if (foundCharacter) {
+      setGuesses([...guesses, foundCharacter])
+      setInputValue("")
+      setSuggestions([])
+      if (normalize(foundCharacter.name) === normalize(targetCharacter.name)) {
+        setVictory(true)
+      }
+    } else {
+      alert("Personaggio non trovato!")
+    }
+  }
+
+  const getColor = (value, target) =>
+    value === target ? "bg-success" : "bg-danger"
 
   return (
     <div
@@ -61,47 +89,92 @@ const ClassicMode = () => {
       </nav>
       <div className="container mt-5">
         <h1 className="text-white">Indovina il personaggio di One Piece!</h1>
-        <input
-          type="text"
-          className="form-control w-50 mx-auto mt-3"
-          placeholder="Inserisci il nome del personaggio"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-        <button className="btn btn-primary mt-3" onClick={checkCharacter}>
+        <div className="position-relative w-50 mx-auto">
+          <input
+            type="text"
+            className="form-control mt-3"
+            placeholder="Inserisci il nome del personaggio"
+            value={inputValue}
+            onChange={handleInputChange}
+          />
+          {suggestions.length > 0 && (
+            <ul
+              className="list-group position-absolute w-100"
+              style={{ zIndex: 10 }}
+            >
+              {suggestions.map((char) => (
+                <li
+                  key={char.name}
+                  className="list-group-item list-group-item-action"
+                  onClick={() => handleSelectSuggestion(char.name)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {char.name}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <button className="btn btn-primary mt-3" onClick={handleVerify}>
           Verifica
         </button>
-        {selectedCharacter && feedback && (
-          <div className="mt-4">
-            <h2 className="text-white">{selectedCharacter.name}</h2>
-            <div className="d-flex justify-content-center gap-3">
-              <span
-                style={{ backgroundColor: feedback.crew }}
-                className="p-2 text-white"
-              >
-                {selectedCharacter.crew}
-              </span>
-              <span
-                style={{ backgroundColor: feedback.haki }}
-                className="p-2 text-white"
-              >
-                {selectedCharacter.haki ? "Haki: Sì" : "Haki: No"}
-              </span>
-              <span
-                style={{ backgroundColor: feedback.bounty }}
-                className="p-2 text-white"
-              >
-                Taglia: {selectedCharacter.bounty}
-              </span>
-              <span
-                style={{ backgroundColor: feedback.height }}
-                className="p-2 text-white"
-              >
-                Altezza: {selectedCharacter.height}
-              </span>
-            </div>
+        {victory && (
+          <div className="alert alert-success mt-4 w-50 mx-auto" role="alert">
+            Complimenti! Hai indovinato il personaggio!
           </div>
         )}
+        <div className="mt-4 d-flex flex-column align-items-center gap-2">
+          {guesses
+            .slice()
+            .reverse()
+            .map((char, index) => (
+              <div key={index} className="mb-2">
+                <h4 className="text-white">{char.name}</h4>
+                <div className="d-flex justify-content-center gap-3 flex-wrap">
+                  <span
+                    className={`p-2 text-white ${getColor(
+                      char.crew,
+                      targetCharacter.crew
+                    )}`}
+                  >
+                    {char.crew}
+                  </span>
+                  <span
+                    className={`p-2 text-white ${getColor(
+                      char.haki,
+                      targetCharacter.haki
+                    )}`}
+                  >
+                    {char.haki ? "Haki: Sì" : "Haki: No"}
+                  </span>
+                  <span
+                    className={`p-2 text-white ${getColor(
+                      char.bounty,
+                      targetCharacter.bounty
+                    )}`}
+                  >
+                    Taglia: {char.bounty}
+                  </span>
+                  <span
+                    className={`p-2 text-white ${getColor(
+                      char.height,
+                      targetCharacter.height
+                    )}`}
+                  >
+                    Altezza: {char.height}
+                  </span>
+                  <span
+                    className={`p-2 text-white ${getColor(
+                      char.devilFruit,
+                      targetCharacter.devilFruit
+                    )}`}
+                  >
+                    Frutto del diavolo: {char.devilFruit ? "Sì" : "No"}
+                  </span>
+                </div>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   )
