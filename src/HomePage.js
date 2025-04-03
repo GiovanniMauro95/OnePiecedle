@@ -24,16 +24,43 @@ const HomePage = () => {
     const ranking = []
 
     users.forEach((user) => {
-      if (user.nickname === "admin") return // Salta admin dalla classifica
+      if (user.nickname === "admin") return
 
-      const key = `tentativi${mode}-${user.nickname}`
+      const key = `tentativi-${mode}-${user.nickname}`
       const tentativi = JSON.parse(localStorage.getItem(key))
       if (tentativi && tentativi.length) {
-        ranking.push({ nickname: user.nickname, tentativi: tentativi.length })
+        const hasWon = tentativi.some(
+          (t) => t.name === getCharacterOfTheDayName(mode)
+        )
+        if (hasWon) {
+          ranking.push({ nickname: user.nickname, tentativi: tentativi.length })
+        }
       }
     })
 
     return ranking.sort((a, b) => a.tentativi - b.tentativi)
+  }
+
+  const getCharacterOfTheDayName = (mode) => {
+    const data = JSON.parse(localStorage.getItem("characterData"))
+    if (!data || !Array.isArray(data)) return ""
+
+    const today = new Date().toISOString().slice(0, 10)
+    const hash = Array.from(today).reduce(
+      (acc, char) => acc + char.charCodeAt(0),
+      0
+    )
+
+    if (mode === "Classic") {
+      const index = hash % data.length
+      return data[index].name
+    } else {
+      const fruitUsers = data.filter(
+        (char) => char.devilFruit && char.fruitName
+      )
+      const index = hash % fruitUsers.length
+      return fruitUsers[index].name
+    }
   }
 
   const handleDeleteUser = (nickname) => {
@@ -43,8 +70,8 @@ const HomePage = () => {
       )
       localStorage.setItem("users", JSON.stringify(updatedUsers))
 
-      localStorage.removeItem(`tentativiClassic-${nickname}`)
-      localStorage.removeItem(`tentativiFruit-${nickname}`)
+      localStorage.removeItem(`tentativi-Classic-${nickname}`)
+      localStorage.removeItem(`tentativi-Fruit-${nickname}`)
 
       window.location.reload()
     }

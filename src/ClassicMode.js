@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
 import { useNavigate } from "react-router-dom"
+import { useGame } from "./GameContext"
 
 const ClassicMode = () => {
   const [characters, setCharacters] = useState([])
   const [inputValue, setInputValue] = useState("")
   const [suggestions, setSuggestions] = useState([])
-  const [guesses, setGuesses] = useState([])
   const [targetCharacter, setTargetCharacter] = useState(null)
   const [victory, setVictory] = useState(false)
   const navigate = useNavigate()
 
+  const { classicGuesses, setClassicGuesses } = useGame()
+
   const loggedUser = JSON.parse(localStorage.getItem("loggedUser"))
-  const guessKey = `tentativi-${loggedUser?.nickname}`
 
   const getCharacterOfTheDay = (data) => {
     const today = new Date().toISOString().slice(0, 10)
@@ -34,13 +35,12 @@ const ClassicMode = () => {
       .then((response) => response.json())
       .then((data) => {
         setCharacters(data)
+        localStorage.setItem("characterData", JSON.stringify(data)) // ✅ per la classifica
+
         const character = getCharacterOfTheDay(data)
         setTargetCharacter(character)
 
-        const savedGuesses = JSON.parse(localStorage.getItem(guessKey)) || []
-        setGuesses(savedGuesses)
-
-        const hasWon = savedGuesses.some(
+        const hasWon = classicGuesses.some(
           (char) => normalize(char.name) === normalize(character.name)
         )
         setVictory(hasWon)
@@ -82,9 +82,8 @@ const ClassicMode = () => {
     )
 
     if (foundCharacter) {
-      const updatedGuesses = [...guesses, foundCharacter]
-      setGuesses(updatedGuesses)
-      localStorage.setItem(guessKey, JSON.stringify(updatedGuesses))
+      const updatedGuesses = [...classicGuesses, foundCharacter]
+      setClassicGuesses(updatedGuesses)
       setInputValue("")
       setSuggestions([])
 
@@ -193,68 +192,70 @@ const ClassicMode = () => {
           </div>
         )}
 
-        <div className="mt-4 d-flex flex-column align-items-center gap-2">
-          {guesses
-            .slice()
-            .reverse()
-            .map((char, index) => (
-              <div key={index} className="mb-3">
-                <h4
-                  className="fw-bold"
-                  style={{
-                    fontFamily: "'Pirata One', cursive",
-                    color: "#f8f1dc",
-                    fontSize: "1.8rem",
-                    textShadow: "1px 1px 3px black",
-                  }}
-                >
-                  {char.name}
-                </h4>
-                <div className="d-flex justify-content-center gap-3 flex-wrap">
-                  <span
-                    className={`p-2 text-white ${getColor(
-                      char.crew,
-                      targetCharacter.crew
-                    )}`}
+        {targetCharacter && (
+          <div className="mt-4 d-flex flex-column align-items-center gap-2">
+            {classicGuesses
+              .slice()
+              .reverse()
+              .map((char, index) => (
+                <div key={index} className="mb-3">
+                  <h4
+                    className="fw-bold"
+                    style={{
+                      fontFamily: "'Pirata One', cursive",
+                      color: "#f8f1dc",
+                      fontSize: "1.8rem",
+                      textShadow: "1px 1px 3px black",
+                    }}
                   >
-                    {char.crew}
-                  </span>
-                  <span
-                    className={`p-2 text-white ${getColor(
-                      char.haki,
-                      targetCharacter.haki
-                    )}`}
-                  >
-                    Haki: {char.haki ? "Sì" : "No"}
-                  </span>
-                  <span
-                    className={`p-2 text-white ${getColor(
-                      char.bounty,
-                      targetCharacter.bounty
-                    )}`}
-                  >
-                    Taglia: {char.bounty}
-                  </span>
-                  <span
-                    className={`p-2 text-white ${getColor(
-                      char.height,
-                      targetCharacter.height
-                    )}`}
-                  >
-                    Altezza: {char.height}
-                  </span>
-                  <span
-                    className={`p-2 text-white ${getColor(
-                      char.devilFruit,
-                      targetCharacter.devilFruit
-                    )}`}
-                  >
-                    Frutto del diavolo: {char.devilFruit ? "Sì" : "No"}
-                  </span>
+                    {char.name}
+                  </h4>
+                  <div className="d-flex justify-content-center gap-3 flex-wrap">
+                    <span
+                      className={`p-2 text-white ${getColor(
+                        char.crew,
+                        targetCharacter.crew
+                      )}`}
+                    >
+                      {char.crew}
+                    </span>
+                    <span
+                      className={`p-2 text-white ${getColor(
+                        char.haki,
+                        targetCharacter.haki
+                      )}`}
+                    >
+                      Haki: {char.haki ? "Sì" : "No"}
+                    </span>
+                    <span
+                      className={`p-2 text-white ${getColor(
+                        char.bounty,
+                        targetCharacter.bounty
+                      )}`}
+                    >
+                      Taglia: {char.bounty}
+                    </span>
+                    <span
+                      className={`p-2 text-white ${getColor(
+                        char.height,
+                        targetCharacter.height
+                      )}`}
+                    >
+                      Altezza: {char.height}
+                    </span>
+                    <span
+                      className={`p-2 text-white ${getColor(
+                        char.devilFruit,
+                        targetCharacter.devilFruit
+                      )}`}
+                    >
+                      Frutto del diavolo: {char.devilFruit ? "Sì" : "No"}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
-        </div>
+              ))}
+          </div>
+        )}
       </div>
     </div>
   )

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
+import { useGame } from "./GameContext"
 
 const FruitMode = () => {
   const [characters, setCharacters] = useState([])
@@ -8,22 +9,32 @@ const FruitMode = () => {
   const [inputValue, setInputValue] = useState("")
   const [victory, setVictory] = useState(false)
   const [suggestions, setSuggestions] = useState([])
-  const [guesses, setGuesses] = useState([])
+
+  const { fruitGuesses, setFruitGuesses } = useGame()
 
   useEffect(() => {
     fetch("/characters.json")
       .then((res) => res.json())
       .then((data) => {
         setCharacters(data)
+        localStorage.setItem("characterData", JSON.stringify(data)) // ✅ necessario per classifica
+
         const users = data.filter((char) => char.devilFruit && char.fruitName)
         setDevilFruitUsers(users)
+
         const today = new Date().toISOString().slice(0, 10)
         const hash = Array.from(today).reduce(
           (acc, char) => acc + char.charCodeAt(0),
           0
         )
         const index = hash % users.length
-        setTargetCharacter(users[index])
+        const fruitUser = users[index]
+        setTargetCharacter(fruitUser)
+
+        const hasWon = fruitGuesses.some(
+          (char) => normalize(char.name) === normalize(fruitUser.name)
+        )
+        setVictory(hasWon)
       })
       .catch((err) => console.error("Errore nel caricamento:", err))
   }, [])
@@ -49,17 +60,22 @@ const FruitMode = () => {
   }
 
   const handleSubmit = () => {
+    if (victory) return
+
     const found = characters.find(
       (char) => normalize(char.name) === normalize(inputValue)
     )
     if (found) {
-      setGuesses([...guesses, found])
+      const updated = [...fruitGuesses, found]
+      setFruitGuesses(updated)
+
       if (
         targetCharacter &&
         normalize(found.name) === normalize(targetCharacter.name)
       ) {
         setVictory(true)
       }
+
       setInputValue("")
       setSuggestions([])
     } else {
@@ -177,32 +193,34 @@ const FruitMode = () => {
           </div>
         )}
 
-        <div className="mt-4 d-flex flex-column align-items-center gap-2">
-          {guesses
-            .slice()
-            .reverse()
-            .map((guess, idx) => (
-              <div key={idx} className="mb-2">
-                <h4
-                  className="fw-bold"
-                  style={{
-                    fontFamily: "'Pirata One', cursive",
-                    color: "#f8f1dc",
-                    fontSize: "1.8rem",
-                    textShadow: "1px 1px 3px black",
-                  }}
-                >
-                  {guess.name}
-                </h4>
-                <div
-                  className={`p-2 text-white ${getColorClass(guess.name)}`}
-                  style={{ minWidth: "150px", borderRadius: "8px" }}
-                >
-                  {guess.name}
+        {targetCharacter && (
+          <div className="mt-4 d-flex flex-column align-items-center gap-2">
+            {fruitGuesses
+              .slice()
+              .reverse()
+              .map((guess, idx) => (
+                <div key={idx} className="mb-2">
+                  <h4
+                    className="fw-bold"
+                    style={{
+                      fontFamily: "'Pirata One', cursive",
+                      color: "#f8f1dc",
+                      fontSize: "1.8rem",
+                      textShadow: "1px 1px 3px black",
+                    }}
+                  >
+                    {guess.name}
+                  </h4>
+                  <div
+                    className={`p-2 text-white ${getColorClass(guess.name)}`}
+                    style={{ minWidth: "150px", borderRadius: "8px" }}
+                  >
+                    {guess.name}
+                  </div>
                 </div>
-              </div>
-            ))}
-        </div>
+              ))}
+          </div>
+        )}
       </div>
     </div>
   )
